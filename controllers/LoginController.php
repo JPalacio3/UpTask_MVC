@@ -37,12 +37,15 @@ class LoginController
     }
 
     // Olvidé Password
-    public static function olvide()
+    public static function olvide(Router $router)
     {
-        echo 'Desde olvidé';
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
+
+        // Render a la vista
+        $router->render('auth/olvide', [
+            'titulo' => ' Recupera tu Contraseña'
+        ]);
     }
 
     //Restablecer el Password
