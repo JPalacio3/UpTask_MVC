@@ -49,14 +49,18 @@ class LoginController
     }
 
     //Restablecer el Password
-    public static function restablecer()
+    public static function restablecer(Router $router)
     {
-        echo 'Desde restablecer';
 
         if (
             $_SERVER['REQUEST_METHOD'] === 'POST'
         ) {
         }
+
+        // Render a la vista
+        $router->render('auth/restablecer', [
+            'titulo' => 'Restablece tu Contraseña'
+        ]);
     }
 
     // Mensaje de confirmación de cuenta
