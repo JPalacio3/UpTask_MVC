@@ -1,6 +1,5 @@
 <div class="contenedor login">
-    <h1 class="uptask">UpTask</h1>
-    <h4 class="tagline">Crea y Administra tus Proyectos</h4>
+    <?php include_once __DIR__ . '/../templates/nombre-sitio.php' ?>
 
 
     <div class="contenedor-sm">
@@ -9,7 +8,7 @@
         <form class="formulario" method="POST" action="/">
             <div class="campo">
                 <label for="email">E mail : </label>
-                <input type="email" id="email" placeholder="Escribe tu email" name="email" />
+                <input type="email" id="email" placeholder="Escribe tu Email" name="email" />
             </div>
 
             <div class="campo">
