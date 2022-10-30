@@ -1,6 +1,11 @@
 <?php
 
-$db = mysqli_connect('localhost', 'root', '', '');
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$db = 'uptaskMVC';
+
+$db = mysqli_connect($host, $user, $password, $db);
 
 
 if (!$db) {
