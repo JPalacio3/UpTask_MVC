@@ -64,14 +64,20 @@ class LoginController
     }
 
     // Mensaje de confirmación de cuenta
-    public static function mensaje()
+    public static function mensaje(Router $router)
     {
-        echo 'Desde Mensaje';
+        // Render a la vista
+        $router->render('auth/mensaje', [
+            'titulo' => 'Cuenta Creada'
+        ]);
     }
 
     // Confirmación de cuenta restablecida
-    public static function confirmar()
+    public static function confirmar(Router $router)
     {
-        echo 'Desde Confirmar';
+        // Render a la vista
+        $router->render('auth/confirmar', [
+            'titulo' => 'Confirmación de cuenta en UpTask'
+        ]);
     }
 }
