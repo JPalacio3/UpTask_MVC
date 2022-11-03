@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Classes\Email;
 use Model\Usuario;
 use MVC\Router;
 
@@ -55,6 +56,12 @@ class LoginController
 
                     //Crer un nuevo usuario
                     $resultado = $usuario->guardar();
+
+                    // Enviar Email
+                    $email = new Email($usuario->email, $usuario->nombre, $usuario->token);
+                    $email->enviarConfirmacion();
+
+
 
                     if ($resultado) {
                         header(('Location: /mensaje'));
@@ -112,9 +119,36 @@ class LoginController
     // Confirmación de cuenta restablecida
     public static function confirmar(Router $router)
     {
+        // Leer el token de la URL
+        $token = s($_GET['token']);
+        if (!$token) header('Location: /');
+
+        // Encontrar al usuario con su token
+        $usuario = Usuario::where('token', $token);
+        if (empty($usuario)) {
+            // No se encoentró usuario con ese Token
+            Usuario::setAlerta('error', 'Usuario Inexistente');
+        } else {
+            // Confirmar la cuenta
+            $usuario->confirmado = 1;
+            $usuario->token = NULL;
+            unset($usuario->password2);
+
+            //GUARDA EL USUARIO CONFIRMADO EN LA BD
+            $usuario->guardar();
+
+            //Alerta de éxito
+            Usuario::setAlerta('exito', 'Usuario Confirmado Correctamente');
+        }
+
+
+        $alertas = Usuario::getAlertas();
+
+
         // Render a la vista
         $router->render('auth/confirmar', [
-            'titulo' => 'Confirmación de cuenta en UpTask'
+            'titulo' => 'Confirmación de cuenta en UpTask',
+            'alertas' => $alertas
         ]);
     }
 }

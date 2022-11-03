@@ -14,4 +14,10 @@
         border-left: .8rem solid v.$rojo;
         color: v.$rojo;
     }
+
+    &.exito {
+        background-color: lighten(v.$verde, 46%);
+        border-left: .8rem solid v.$verde;
+        color: v.$verde;
+    }
 }
