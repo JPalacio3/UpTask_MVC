@@ -15,7 +15,7 @@ class Usuario extends ActiveRecord
         $this->password = $args['password'] ?? '';
         $this->password2 = $args['password2'] ?? null;
         $this->token = $args['token'] ?? '';
-        $this->confirmado = $args['confirmado'] ?? '';
+        $this->confirmado = $args['confirmado'] ?? 0;
     }
 
     // Validación para cuentas nuevas:
@@ -40,9 +40,18 @@ class Usuario extends ActiveRecord
         if ($this->password !== $this->password2) {
             self::$alertas['error'][] = ' Las Contraseñas NO coinciden';
         }
-
-
-
         return self::$alertas;
+    }
+
+    // Hashea el password
+    public function hashPassword()
+    {
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+    }
+
+    // Generar un Token
+    public function token()
+    {
+        $this->token = md5(uniqid());
     }
 }
