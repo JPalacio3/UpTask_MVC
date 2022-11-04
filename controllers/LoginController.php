@@ -83,18 +83,48 @@ class LoginController
     // Olvidé Password
     public static function olvide(Router $router)
     {
+        $alertas = [];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $usuario = new Usuario($_POST);
+            $alertas = $usuario->validarEmail();
+
+            if (empty($alertas)) {
+                // Buscar al usuario
+                $usuario = Usuario::where('email', $usuario->email);
+
+                if ($usuario && $usuario->confirmado === "1") {
+
+                    // Generar un nuevo Token
+                    $usuario->token();
+
+                    // Actualizar el usuario
+                    $usuario->guardar();
+
+                    // Enviar el Email
+                    $email = new Email($usuario->email, $usuario->nombre, $usuario->token);
+                    $email->enviarInstrucciones();
+
+                    // Imprimir la alerta
+                    Usuario::setAlerta('exito', 'Hemos enviado a tu email las instrucciones para que restablezcas tu contraseña');
+                } else {
+                    Usuario::setAlerta('error', 'El Usuario NO está registrado o NO ha sido confirmado');
+                }
+            }
         }
+        $alertas = Usuario::getAlertas();
 
         // Render a la vista
         $router->render('auth/olvide', [
-            'titulo' => ' Recupera tu Contraseña'
+            'titulo' => ' Recupera tu Contraseña',
+            'alertas' => $alertas
         ]);
     }
 
     //Restablecer el Password
     public static function restablecer(Router $router)
     {
+        $token = s($_GET['token']);
+        if (!$token) header('Location: /');
 
         if (
             $_SERVER['REQUEST_METHOD'] === 'POST'
