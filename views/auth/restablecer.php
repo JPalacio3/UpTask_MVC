@@ -3,9 +3,14 @@
 
 
     <div class="contenedor-sm">
+
         <p class="descripcion-pagina">Escribe tu Nueva Contraseña</p>
 
-        <form class="formulario" method="POST" action="/restablecer">
+        <?php include_once __DIR__ . '/../templates/alertas.php' ?>
+
+        <?php if ($mostrar) { ?>
+
+        <form class="formulario" method="POST">
 
             <div class="campo">
                 <label for="password">Contraseña : </label>
@@ -15,6 +20,7 @@
             <input type="submit" class="boton" value="Guardar Contraseña">
         </form>
 
+        <?php } ?>
         <div class="acciones">
             <a href="/">¿Ya tienes una cuenta?, Inicia Sesión</a>
             <a href="/crear">Regístrate con Nosotros</a>

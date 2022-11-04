@@ -67,4 +67,18 @@ class Usuario extends ActiveRecord
 
         return self::$alertas;
     }
+
+    // Valida el password en restablecer
+    public function validarPassword()
+    {
+
+        if (!$this->password) {
+            self::$alertas['error'][] = 'La Contraseña NO puede ir vacía';
+        }
+
+        if (strlen($this->password) < 8) {
+            self::$alertas['error'][] = 'La Contraseña debe tener al menos 8 carácteres';
+        }
+        return self::$alertas;
+    }
 }

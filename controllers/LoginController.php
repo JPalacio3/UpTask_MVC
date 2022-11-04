@@ -124,16 +124,51 @@ class LoginController
     public static function restablecer(Router $router)
     {
         $token = s($_GET['token']);
+        $mostrar = true;
+
         if (!$token) header('Location: /');
 
-        if (
-            $_SERVER['REQUEST_METHOD'] === 'POST'
-        ) {
+        // Identificar el ususario con este token
+        $usuario = Usuario::where('token', $token);
+
+        if (empty($usuario)) {
+            Usuario::setAlerta('error', 'Tan chistoso que te ves tratando de adivinar la contraseña 🤣😂');
+            $mostrar = false;
         }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            // Añadir el nuevo password
+            $usuario->sincronizar($_POST);
+
+            //Validar el password
+            $alertas = $usuario->validarPassword();
+
+            if (empty($alertas)) {
+
+                // Hashear el nuevo password
+                $usuario->hashPassword();
+
+                // Eliminar el Token
+                $usuario->token = null;
+
+                // Guardar el usuario en la base de datos
+                $resultado = $usuario->guardar();
+
+                // Redireccionar
+                if ($resultado) {
+                    header('Location: /');
+                }
+            }
+        }
+
+        $alertas = Usuario::getAlertas();
 
         // Render a la vista
         $router->render('auth/restablecer', [
-            'titulo' => 'Restablece tu Contraseña'
+            'titulo' => 'Restablece tu Contraseña',
+            'alertas' => $alertas,
+            'mostrar' => $mostrar
         ]);
     }
 
