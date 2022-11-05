@@ -36,12 +36,6 @@ class Usuario extends ActiveRecord
     }
 
 
-
-
-
-
-
-
     // Validación para cuentas nuevas:
     public function validarNuevaCuenta()
     {

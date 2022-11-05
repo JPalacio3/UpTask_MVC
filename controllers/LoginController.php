@@ -35,7 +35,7 @@ class LoginController
                         $_SESSION['login'] = true;
 
                         // Redireccionar
-                        header('Location: /proyectos');
+                        header('Location: /dashboard');
                     } else {
                         Usuario::setAlerta('error', 'Contraseña Incorrecta');
                     }
@@ -47,7 +47,7 @@ class LoginController
 
         // render a la vista
         $router->render('auth/login', [
-            'titulo' => 'Iniciar Sesión',
+            'titulo' => '🔐 Iniciar Sesión 🔐',
             'alertas' => $alertas
         ]);
     }
@@ -55,7 +55,9 @@ class LoginController
     //logout
     public static function logout()
     {
-        echo 'Desde Logout';
+        session_start();
+        $_SESSION = [];
+        header('Location: /');
     }
 
     // Crear cuenta
