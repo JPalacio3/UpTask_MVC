@@ -21,4 +21,19 @@
             text-align: center;
         }
     }
+
+    .formulario {
+        input:not([type="submit"]) {
+            background-color: v.$blanco;
+        }
+
+        input[type="submit"] {
+            @include m.boton(v.$indigo, v.$blanco);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+    }
 }
