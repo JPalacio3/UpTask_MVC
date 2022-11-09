@@ -1,3 +1,4 @@
+
 (function () {
     // Boton para mostrar el Modal de agregar tarea
     const nuevaTareaBtn = document.querySelector('#agregar-tarea');
@@ -34,6 +35,20 @@ id="tarea"
             formulario.classList.add('animar');
 
         },100);
+
+        modal.addEventListener('click',function (e) {
+            e.preventDefault();
+
+            if (e.target.classList.contains('cerrar-modal')) {
+                const formulario = document.querySelector('.formulario');
+                formulario.classList.add('cerrar');
+
+                setTimeout(() => {
+                    modal.remove();
+                },200);
+            }
+
+        });
 
 
         document.querySelector('body').appendChild(modal);
