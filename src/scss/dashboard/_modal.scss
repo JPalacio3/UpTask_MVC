@@ -31,6 +31,10 @@
             margin-bottom: 2rem
         }
 
+        input[type="text"] {
+            border: .5px solid v.$gris;
+        }
+
         .opciones {
             display: flex;
             justify-content: space-between;
