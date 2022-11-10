@@ -1,8 +1,10 @@
 
 (function () {
+
+
     // Boton para mostrar el Modal de agregar tarea
     const nuevaTareaBtn = document.querySelector('#agregar-tarea');
-    nuevaTareaBtn.addEventListener('click',mostrarFormulario);
+    nuevaTareaBtn.addEventListener('click',function () { mostrarFormulario() });
 
     function mostrarFormulario() {
         const modal = document.createElement('DIV');
@@ -23,18 +25,14 @@ id="tarea"
 <div class="opciones">
 <input type="submit" class="submit-nueva-tarea" value="Añadir Tarea" />
 <button type="button" class="cerrar-modal">Cancelar</button>
-
-
 </div>
-
 </form>
 `;
 
         setTimeout(() => {
             const formulario = document.querySelector('.formulario');
             formulario.classList.add('animar');
-
-        },100);
+        },200);
 
         modal.addEventListener('click',function (e) {
             e.preventDefault();
@@ -42,12 +40,13 @@ id="tarea"
             if (e.target.classList.contains('cerrar-modal')) {
                 const formulario = document.querySelector('.formulario');
                 formulario.classList.add('cerrar');
-
                 setTimeout(() => {
                     modal.remove();
                 },200);
             }
+
             if (e.target.classList.contains('submit-nueva-tarea')) {
+
                 submitFormularioNuevaTarea();
             }
 
@@ -59,14 +58,17 @@ id="tarea"
     }
 
     function submitFormularioNuevaTarea() {
-        const tarea = document.querySelector('#tarea').value.trim();
 
-        if (tarea === '') {
+        const nombreTarea = document.querySelector('#tarea').value.trim();
+
+        if (nombreTarea === '') {
             // Mostrar una alerta de error
-            mostrarAlerta('El Nombre de la Tarea es Obligatorio','error',document.querySelector('.formulario legend'));
+            mostrarAlerta('El Nombre de la tarea es Obligatorio','error',document.querySelector('.formulario legend'));
             return;
+        } else {
+            agregarTarea(nombreTarea);
         }
-        agregarTarea();
+
     }
 
     // Muestra un mensaje en la interfaz
@@ -87,13 +89,49 @@ id="tarea"
         // Eliminar la alerta después de 2segundos
         setTimeout(() => {
             alerta.remove();
-        },4000);
+        },2000);
 
     }
 
     // Consultar el servidor para añadir una nueva tarea al proyecto actual
-    function agregarTarea(tarea) {
-        alert('tarea agregada');
+    async function agregarTarea(tarea) {
+        // Construir la petición
+        const datos = new FormData();
+        datos.append('nombre',tarea);
+        datos.append('proyectoId',obtenerProyecto());
+
+        try {
+            const url = 'http://localhost:6969/api/tarea';
+            const respuesta = await fetch(url,{
+                method: 'POST',
+                body: datos
+            });
+
+            const resultado = await respuesta.json();
+
+            // Mostrar una alerta de error
+            mostrarAlerta(resultado.mensaje,resultado.tipo,document.querySelector('.formulario legend'));
+            if (resultado.tipo === 'exito') {
+                const modal = document.querySelector('.modal');
+
+                setTimeout(() => {
+                    modal.remove();
+                },1800);
+
+
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
+
+
+    function obtenerProyecto() {
+        const proyectoParams = new URLSearchParams(window.location.search);
+        const proyecto = Object.fromEntries(proyectoParams.entries());
+        return proyecto.id;
+
+    }
 })();

@@ -5,17 +5,13 @@ if (count($proyectos) === 0) { ?>
 <p class="no-proyectos"> NO HAY PROYECTOS AÚN <a href="crear-proyecto">Comienza creando uno ahora</a></p>
 <?php } else { ?>
 <ul class="listado-proyectos">
-    <?php
-        foreach ($proyectos as $proyecto) { ?>
-
+    <?php foreach($proyectos as $proyecto) { ?>
     <li class="proyecto">
-        <a href="/proyecto?dir%=<?php echo $proyecto->url; ?>"> <?php echo $proyecto->proyecto;   ?></a>
-
+        <a href="/proyecto?id=<?php echo $proyecto->url; ?>">
+            <?php echo $proyecto->proyecto; ?>
+        </a>
     </li>
-
     <?php } ?>
-
-
 </ul>
 <?php } ?>
 <?php include_once __DIR__ . '/footer-dashboard.php'; ?>
