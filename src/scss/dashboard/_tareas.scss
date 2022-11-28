@@ -31,10 +31,16 @@
 
     &:last-of-type {
         border: none;
+        cursor: pointer;
     }
 
     p {
         font-size: 1.4rem;
+
+        &:hover {
+            cursor: pointer;
+            color: rgb(31, 28, 28);
+        }
     }
 
     .opciones {
@@ -49,24 +55,40 @@
             font-weight: 700;
             border-radius: 1rem;
 
-            &:hover {
-                cursor: pointer;
-            }
         }
 
         .completa {
             background-color: v.$azul;
             color: v.$blanco;
+
+            &:hover {
+                cursor: pointer;
+                background-color: darken(v.$azul, 20%);
+
+            }
         }
+
 
         .pendiente {
             background-color: v.$naranja;
             color: v.$blanco;
+
+            &:hover {
+                cursor: pointer;
+                background-color: darken(v.$naranja, 10%);
+
+            }
         }
 
         .eliminar-tarea {
-            background-color: lighten(v.$rojo, 30%);
-            color: v.$rojo;
+            background-color: v.$rojo;
+            color: v.$blanco;
+
+            &:hover {
+                cursor: pointer;
+                background-color: darken(v.$rojo, 10%);
+
+            }
         }
     }
 }
