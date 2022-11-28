@@ -3,6 +3,7 @@
 
     obtenerTareas();
     let tareas = [];
+    let filtradas = [];
 
     // Boton para mostrar el Modal de agregar tarea
     const nuevaTareaBtn = document.querySelector('#agregar-tarea');
@@ -36,10 +37,13 @@
     }
 
     function mostrarTareas() {
-
         limpiarTareas();
+        totalPendientes();
+        totalCompletas();
 
-        if (tareas.length === 0) {
+        const arrayTareas = filtradas.length ? filtradas : tareas;
+
+        if (arrayTareas.length === 0) {
             const contenedorTareas = document.querySelector('#listado-tareas');
             const textoNoTareas = document.createElement('LI');
             textoNoTareas.textContent = 'No Hay Tareas Aún';
@@ -57,7 +61,7 @@
 
 
 
-        tareas.forEach(tarea => {
+        arrayTareas.forEach(tarea => {
             const contenedorTarea = document.createElement('LI');
             contenedorTarea.dataset.tareaId = tarea.id;
             contenedorTarea.classList.add('tarea');
@@ -353,4 +357,45 @@ value="${tarea.nombre ? tarea.nombre : ''}"
 
 
     }
+
+    // Filtros de busqueda
+    const filtros = document.querySelectorAll('#filtros input[type="radio"]');
+    filtros.forEach(radio => {
+        radio.addEventListener('input',filtrarTareas);
+    })
+
+    function filtrarTareas(e) {
+        const filtro = e.target.value;
+
+        if (filtro !== '') {
+            filtradas = tareas.filter(tarea => tarea.estado === filtro);
+        } else {
+            filtradas = [];
+        }
+        mostrarTareas();
+    }
+
+    function totalPendientes() {
+        const totalPendientes = tareas.filter(tarea => tarea.estado === '0');
+        const pendientesRadio = document.querySelector('#pendientes');
+
+        if (totalPendientes.length === 0) {
+            pendientesRadio.disabled = true;
+        } else {
+            pendientesRadio.disabled = false;
+        }
+    }
+
+    function totalCompletas() {
+        const totalCompletas = tareas.filter(tarea => tarea.estado === '1');
+        const completasRadio = document.querySelector('#completadas');
+
+        if (totalCompletas.length === 0) {
+            completasRadio.disabled = true;
+        } else {
+            completasRadio.disabled = false;
+        }
+    }
+
+
 })();
