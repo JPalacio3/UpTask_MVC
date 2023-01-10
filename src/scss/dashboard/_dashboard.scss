@@ -34,7 +34,16 @@
             padding: 1rem;
             text-transform: uppercase;
             font-weight: bold;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+        }
+    }
+
+    .enlace {
+        color: v.$indigo;
+        font-weight: bold;
+
+        &:hover {
+            color: darken(v.$indigo, 20%);
         }
     }
 }
