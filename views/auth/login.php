@@ -16,7 +16,7 @@
 
             <div class="campo">
                 <label for="password">Password : </label>
-                <input type="password" id="password" name="password" placeholder="Crea tu Password" />
+                <input type="password" id="password" name="password" placeholder=" Tu Password" />
             </div>
 
             <input type="submit" class="boton" value="Iniciar Sesión">

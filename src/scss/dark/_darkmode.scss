@@ -1,0 +1,111 @@
+@use "base/mixins" as m;
+@use "base/variables" as v;
+
+@media (prefers-color-scheme: dark) {
+  $grisOscuro: #2c2c3b;
+
+  body {
+    background-color: $grisOscuro;
+  }
+
+  .tagline,
+  .formulario label,
+  .login .acciones a {
+    color: v.$blanco;
+  }
+  .descripcion-pagina,
+  .formulario .campo input,
+  .nombre-pagina {
+    color: darken(v.$grisClaro, 15%);
+  }
+  .formulario .campo input {
+    background-color: lighten($grisOscuro, 15%);
+    &::placeholder {
+      color: darken(v.$grisClaro, 40%);
+    }
+  }
+  .dashboard {
+    background-color: $grisOscuro;
+
+    .enlace {
+      color: v.$grisClaro;
+
+      &:hover {
+        color: darken(v.$grisClaro, 10%);
+      }
+    }
+    .formulario input:not([type="submit"]) {
+      background-color: lighten($grisOscuro, 20%);
+      color: v.$blanco;
+      &::placeholder {
+        color: darken(v.$grisClaro, 40%);
+      }
+    }
+  }
+
+  .sidebar {
+    @include m.tablet {
+      background-color: darken($grisOscuro, 5%);
+    }
+    .sidebar-nav a {
+      &.activo,
+      &:hover {
+        background-color: v.$naranja;
+      }
+    }
+  }
+
+  .barra-mobile,
+  .barra {
+    background-color: darken($grisOscuro, 10%);
+  }
+  .barra {
+    p {
+      color: v.$naranja;
+      span {
+        color: v.$grisClaro;
+      }
+    }
+    .cerrar-sesion {
+      @include m.boton(v.$naranja, v.$blanco);
+      padding: 1rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  .filtros {
+    background-color: lighten($grisOscuro, 10%);
+    h2,
+    label {
+      color: v.$blanco;
+    }
+    input[type="radio"] {
+      accent-color: v.$naranja;
+    }
+  }
+  .listado-proyectos .proyecto {
+    background-color: lighten($grisOscuro, 20%);
+    &:hover {
+      background-color: lighten($grisOscuro, 10%);
+    }
+  }
+  .listado-tareas .tarea {
+    background-color: lighten($grisOscuro, 10%);
+    border-bottom: 1px solid $grisOscuro;
+    border-radius: 1rem;
+    p {
+      color: v.$grisClaro;
+    }
+  }
+  .modal .formulario {
+    background-color: $grisOscuro;
+    input[type="text"] {
+      background-color: lighten(v.$grisOscuro, 40%);
+      border: none;
+      color: $grisOscuro;
+    }
+    legend {
+      color: v.$grisClaro;
+    }
+  }
+}
